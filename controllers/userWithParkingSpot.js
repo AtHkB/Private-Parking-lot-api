@@ -6,9 +6,14 @@ in the controller for user creation after the user has been created and saved, w
 
 const ParkingSpot = require("../schemas/ParkinSpot");
 const UserWithParkingSpot = require("../schemas/UserWithParkingSpot");
+const { validationResult } = require("express-validator");
 
 exports.createUserWithParkingSpot = async (req, res) => {
   // sanitize data
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   // make sure all the data is the way it's supposed to be
   const { email, password, location } = req.body;
   try {
