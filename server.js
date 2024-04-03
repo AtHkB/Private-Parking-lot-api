@@ -4,6 +4,7 @@ require("dotenv").config();
 const cors = require("cors");
 const connectDB = require("./dbinit");
 const userWithParkingSpotRouter = require("./routes/UserWithParkingSpotRouter");
+const userRouter = require("./routes/UserRouter");
 const PORT = process.env.PORT || 8081;
 
 connectDB();
@@ -12,7 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 //use router
-app.use([userWithParkingSpotRouter]);
+app.use([userWithParkingSpotRouter, userRouter]);
 
 app.get("/", (req, res) => {
   res.status(200).send("Welcom to Private Parking Spot API");

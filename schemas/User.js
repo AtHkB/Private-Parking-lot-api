@@ -2,19 +2,13 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 
-const UserWithParkingSpotSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   email: {
     type: String,
   },
   password: {
     type: String,
   },
-  parkingSpots: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ParkingSpot",
-    },
-  ],
 });
 
 /* 
@@ -23,7 +17,7 @@ add the login & signup static methods
 */
 // static custom login method
 
-UserWithParkingSpotSchema.statics.login = async function (email, password) {
+UserSchema.statics.login = async function (email, password) {
   if (!email || !password) {
     throw Error("All fields must be filled");
   }
@@ -46,7 +40,29 @@ UserWithParkingSpotSchema.statics.login = async function (email, password) {
 // static custom signup method
 // PLEASE CHECK AND COMMENT IF !OK
 
-UserWithParkingSpotSchema.statics.signup = async function (email, password) {
+UserSchema.statics.signup = async function (email, password) {
+  //validation
+
+  const exists = await this.findOne({ email });
+
+  if (exists) {
+    throw Error("Email already in use");
+  }
+
+  if (!email || !password) {
+    throw Error("All fields must be filled");
+  }
+
+  if (!validator.isEmail(email)) {
+    throw Error("email is not valid");
+  }
+
+  if (!validator.isStrongPassword(password)) {
+    throw Error(
+      "Make sure to use at least 8 characters, one upper case letter, a number and a symbol"
+    );
+  }
+
   const salt = await bcrypt.genSalt(10);
 
   const hash = await bcrypt.hash(password, salt);
@@ -56,7 +72,4 @@ UserWithParkingSpotSchema.statics.signup = async function (email, password) {
   return user;
 };
 
-module.exports = mongoose.model(
-  "UserWithParkingSpot",
-  UserWithParkingSpotSchema
-);
+module.exports = mongoose.model("User", UserSchema);

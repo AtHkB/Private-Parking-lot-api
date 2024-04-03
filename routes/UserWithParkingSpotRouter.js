@@ -5,11 +5,15 @@ const {
 const {
   createUserWithParkingSpot,
   getAllUserWithParkingSpot,
+  login,
 } = require("../controllers/userWithParkingSpot");
+const userWithParkingSpotAuth = require("../middlewares/userWithParkingSpotAuth");
+
 const api = express.Router();
 api
   .route("/user-with-parking-spot")
   .post(createUserWithParkingSpotValidator, createUserWithParkingSpot)
-  .get(getAllUserWithParkingSpot);
+  .get(userWithParkingSpotAuth, getAllUserWithParkingSpot);
+api.route("/user-with-parking-spot/login").post(login);
 
 module.exports = api;
