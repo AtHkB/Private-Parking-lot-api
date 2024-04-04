@@ -1,12 +1,13 @@
 /* 
 in the controller for user creation after the user has been created and saved, we need to also create a parking spot. meaning we need to import both the userWithParkingSpotSchema & the ParkingSpotSchema.
-
-
 */
-
 const ParkingSpot = require("../schemas/ParkinSpot");
 const UserWithParkingSpot = require("../schemas/UserWithParkingSpot");
 const { validationResult } = require("express-validator");
+const {
+  loginUser,
+  signUpUser,
+} = require("./helpers/authUserWithParkingHelper");
 
 exports.createUserWithParkingSpot = async (req, res) => {
   // sanitize data
@@ -14,6 +15,8 @@ exports.createUserWithParkingSpot = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+  //const tokenData = signUpUser(req, res);
+  const token = await signUpUser(req, res);
   // make sure all the data is the way it's supposed to be
   const { email, password, location } = req.body;
   try {
@@ -61,7 +64,7 @@ exports.createUserWithParkingSpot = async (req, res) => {
       { parkingSpots: queryUpdateUserWithParkingSpot },
       { new: true }
     );
-    return res.json({ updatedUser }).status(200);
+    return res.json({ updatedUser, token }).status(200);
   } catch (err) {
     console.error(err);
     return res.json({ error: err.message }).status(400);
@@ -78,4 +81,7 @@ exports.getAllUserWithParkingSpot = async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
+};
+exports.login = async (req, res) => {
+  return loginUser(req, res);
 };
