@@ -7,17 +7,16 @@ exports.createUserWithParkingSpotValidator = [
     .isEmpty()
     .withMessage("The email is mandatory")
     .isEmail()
-    .withMessage("Not a valid e-mail address"),
-  //TODO uncomment in end when we need to check exist user email
-  // .custom(async (value) => {
-  //   const existingUserWithParkingSpot = await UserWithParkingSpot.findOne({
-  //     email: value,
-  //   });
-  //   console.log("existingUserWithParkingSpot", existingUserWithParkingSpot);
-  //   if (existingUserWithParkingSpot !== null) {
-  //     throw new Error("A user already exists with this e-mail address");
-  //   }
-  // })
+    .withMessage("Not a valid e-mail address")
+    .custom(async (value) => {
+      const existingUserWithParkingSpot = await UserWithParkingSpot.findOne({
+        email: value,
+      });
+      console.log("existingUserWithParkingSpot", existingUserWithParkingSpot);
+      if (existingUserWithParkingSpot !== null) {
+        throw new Error("A user already exists with this e-mail address");
+      }
+    }),
   body("password")
     .not()
     .isEmpty()
