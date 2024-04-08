@@ -29,4 +29,15 @@ exports.createUserWithParkingSpotValidator = [
     .withMessage("The location is mandatory")
     .isArray()
     .withMessage("The location data should be array"),
+  body("note").not().isEmpty().withMessage("The Instructions is mandatory"),
+  body("price").not().isEmpty().withMessage("The price is mandatory"),
+  body("startDate").not().isEmpty().withMessage("The startDate is mandatory"),
+  body("hauseNumber")
+    .not()
+    .isEmpty()
+    .withMessage("The hauseNumber is mandatory"),
+  body("postalCode")
+    .not()
+    .isEmpty()
+    .withMessage("The postalCode is postalCode"),
 ];

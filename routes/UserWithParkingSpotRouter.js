@@ -13,7 +13,7 @@ const api = express.Router();
 api
   .route("/user-with-parking-spot")
   .post(createUserWithParkingSpotValidator, createUserWithParkingSpot)
-  .get(userWithParkingSpotAuth, getAllUserWithParkingSpot);
+  .get(getAllUserWithParkingSpot);
 api.route("/user-with-parking-spot/login").post(login);
 
 module.exports = api;

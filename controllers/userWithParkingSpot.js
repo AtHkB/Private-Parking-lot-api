@@ -4,6 +4,7 @@ in the controller for user creation after the user has been created and saved, w
 const ParkingSpot = require("../schemas/ParkinSpot");
 const UserWithParkingSpot = require("../schemas/UserWithParkingSpot");
 const { validationResult } = require("express-validator");
+const BookingStatus = require("../enums/bookingStatus");
 const {
   loginUser,
   signUpUser,
@@ -18,7 +19,9 @@ exports.createUserWithParkingSpot = async (req, res) => {
   //const tokenData = signUpUser(req, res);
   const token = await signUpUser(req, res);
   // make sure all the data is the way it's supposed to be
-  const { email, password, location } = req.body;
+  const { email, location, price, note, startDate, hauseNumber, postalCode } =
+    req.body;
+  const bookingStatus = BookingStatus.NOT;
   try {
     // Find or create new userWithParkingSpot
     const userWithParkingSpot = await UserWithParkingSpot.findOne({
@@ -28,7 +31,6 @@ exports.createUserWithParkingSpot = async (req, res) => {
     if (!userWithParkingSpot) {
       createduserWithParkingSpot = await UserWithParkingSpot.create({
         email,
-        password,
       });
       createduserWithParkingSpot = await createduserWithParkingSpot.save();
     }
@@ -46,12 +48,26 @@ exports.createUserWithParkingSpot = async (req, res) => {
       createdParkingSpot = await ParkingSpot.create({
         user: { _id: queryFindUserWithParkingSpot._id },
         location,
+        price,
+        note,
+        startDate,
+        hauseNumber,
+        postalCode,
+        bookingStatus,
       });
       createdParkingSpot = await createdParkingSpot.save();
     } else {
       const updatedParkingSpot = await ParkingSpot.findOneAndUpdate(
         { _id: parkingSpot._id },
-        { location: location },
+        {
+          location,
+          price,
+          note,
+          startDate,
+          hauseNumber,
+          postalCode,
+          bookingStatus,
+        },
         { new: true }
       );
     }
