@@ -15,6 +15,12 @@ const UserWithParkingSpotSchema = new mongoose.Schema({
       ref: "ParkingSpot",
     },
   ],
+  bookings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Booking",
+    },
+  ],
 });
 
 /* 

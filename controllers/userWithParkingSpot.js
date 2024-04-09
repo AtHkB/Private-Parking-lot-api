@@ -19,8 +19,18 @@ exports.createUserWithParkingSpot = async (req, res) => {
   //const tokenData = signUpUser(req, res);
   const token = await signUpUser(req, res);
   // make sure all the data is the way it's supposed to be
-  const { email, location, price, note, startDate, hauseNumber, postalCode } =
-    req.body;
+  const {
+    email,
+    location,
+    price,
+    note,
+    startDate,
+    endDate,
+    hauseNumber,
+    postalCode,
+    title,
+    streetName,
+  } = req.body;
   const bookingStatus = BookingStatus.NOT;
   try {
     // Find or create new userWithParkingSpot
@@ -51,9 +61,12 @@ exports.createUserWithParkingSpot = async (req, res) => {
         price,
         note,
         startDate,
+        endDate,
         hauseNumber,
         postalCode,
         bookingStatus,
+        title,
+        streetName,
       });
       createdParkingSpot = await createdParkingSpot.save();
     } else {
@@ -64,9 +77,12 @@ exports.createUserWithParkingSpot = async (req, res) => {
           price,
           note,
           startDate,
+          endDate,
           hauseNumber,
           postalCode,
           bookingStatus,
+          title,
+          streetName,
         },
         { new: true }
       );
@@ -89,9 +105,13 @@ exports.createUserWithParkingSpot = async (req, res) => {
 
 exports.getAllUserWithParkingSpot = async (req, res) => {
   try {
-    const userWithParkingSpots = await UserWithParkingSpot.find().populate(
-      "parkingSpots"
-    );
+    const userWithParkingSpots = await UserWithParkingSpot.find(
+      {},
+      {
+        password: 0,
+        email: 0,
+      }
+    ).populate("parkingSpots");
     res.json({ userWithParkingSpots });
   } catch (error) {
     console.error(error);
