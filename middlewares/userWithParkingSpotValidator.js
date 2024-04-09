@@ -35,8 +35,7 @@ exports.createUserWithParkingSpotValidator = [
     .not()
     .isEmpty()
     .withMessage("The hauseNumber is mandatory"),
-  body("postalCode")
-    .not()
-    .isEmpty()
-    .withMessage("The postalCode is postalCode"),
+  body("postalCode").not().isEmpty().withMessage("The postalCode is mandatory"),
+  body("streetName").not().isEmpty().withMessage("The streetName is mandatory"),
+  body("title").not().isEmpty().withMessage("The title is mandatory"),
 ];
