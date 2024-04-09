@@ -9,6 +9,12 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  bookings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Booking",
+    },
+  ],
 });
 
 /* 

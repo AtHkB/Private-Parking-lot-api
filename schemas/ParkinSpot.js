@@ -25,6 +25,14 @@ const ParkingSpotSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  streetName: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
   bookingStatus: {
     type: String,
     required: true,
@@ -42,8 +50,14 @@ const ParkingSpotSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "UserWithParkingSpot",
+    ref: "User",
   },
+  bookings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Booking",
+    },
+  ],
 });
 
 module.exports = mongoose.model("ParkingSpot", ParkingSpotSchema);

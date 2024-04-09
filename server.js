@@ -5,6 +5,8 @@ const cors = require("cors");
 const connectDB = require("./dbinit");
 const userWithParkingSpotRouter = require("./routes/UserWithParkingSpotRouter");
 const userRouter = require("./routes/UserRouter");
+const bookingRouter = require("./routes/BookingRouter");
+const parkingSpotRouter = require("./routes/ParkingSpotRouter");
 const PORT = process.env.PORT || 8081;
 
 connectDB();
@@ -13,7 +15,12 @@ app.use(express.json());
 app.use(cors());
 
 //use router
-app.use([userWithParkingSpotRouter, userRouter]);
+app.use([
+  userWithParkingSpotRouter,
+  userRouter,
+  bookingRouter,
+  parkingSpotRouter,
+]);
 
 app.get("/", (req, res) => {
   res.status(200).send("Welcom to Private Parking Spot API");
