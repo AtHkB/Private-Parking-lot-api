@@ -1,28 +1,25 @@
 const { body } = require("express-validator");
-const Booking = require("../schemas/Booking");
-
+const dateRangeValidator = (startDate, { req }) => {
+  const endDate = req.body.endDate;
+  if (startDate >= endDate) {
+    throw new Error("Start date must be less than end date");
+  }
+  return true;
+};
 exports.createBookingValidator = [
-  body("startDate").not().isEmpty().withMessage("The startDate is mandatory"),
-  body("endDate").not().isEmpty().withMessage("The endDate is mandatory"),
+  // Check if start date is provided and is a valid date
+  body("startDate").exists().isISO8601(),
+  // Check if end date is provided and is a valid date
+  body("endDate").exists().isISO8601(),
+  // Custom validation to ensure start date is less than end date
+  body("startDate").custom(dateRangeValidator),
   body("parkingspotID")
     .not()
     .isEmpty()
     .withMessage("The parkingspotID is mandatory"),
   body("userID").not().isEmpty().withMessage("The userID is mandatory"),
-
-  // .custom(async (value) => {
-  //   const existingUserWithParkingSpot = await UserWithParkingSpot.findOne({
-  //     email: value,
-  //   });
-  //   console.log("existingUserWithParkingSpot", existingUserWithParkingSpot);
-  //   if (existingUserWithParkingSpot !== null) {
-  //     throw new Error("A user already exists with this e-mail address");
-  //   }
-  // }),
 ];
 exports.updateBookingValidator = [
-  body("startDate").not().isEmpty().withMessage("The startDate is mandatory"),
-  body("endDate").not().isEmpty().withMessage("The endDate is mandatory"),
   body("bookingStatus")
     .not()
     .isEmpty()
