@@ -4,5 +4,6 @@ const BookingStatus = Object.freeze({
   FULL: "full",
   CHECKIN: "check-in",
   CHECKOUT: "check-out",
+  BOOK: "book",
 });
 module.exports = BookingStatus;
