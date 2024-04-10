@@ -41,13 +41,6 @@ const ParkingSpotSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  startDate: {
-    type: String,
-    required: true,
-  },
-  endDate: {
-    type: String,
-  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
