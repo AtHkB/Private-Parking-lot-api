@@ -9,6 +9,9 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  fullName: {
+    type: String,
+  },
   bookings: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -46,7 +49,7 @@ UserSchema.statics.login = async function (email, password) {
 // static custom signup method
 // PLEASE CHECK AND COMMENT IF !OK
 
-UserSchema.statics.signup = async function (email, password) {
+UserSchema.statics.signup = async function (email, password, fullName) {
   //validation
 
   const exists = await this.findOne({ email });
@@ -73,7 +76,7 @@ UserSchema.statics.signup = async function (email, password) {
 
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ email, password: hash });
+  const user = await this.create({ email, password: hash, fullName });
 
   return user;
 };

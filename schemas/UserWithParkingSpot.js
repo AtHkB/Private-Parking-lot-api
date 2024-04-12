@@ -9,6 +9,9 @@ const UserWithParkingSpotSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  fullName: {
+    type: String,
+  },
   parkingSpots: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -49,16 +52,14 @@ UserWithParkingSpotSchema.statics.login = async function (email, password) {
   return user;
 };
 
-// static custom signup method
-// PLEASE CHECK AND COMMENT IF !OK
-
-UserWithParkingSpotSchema.statics.signup = async function (email, password) {
+UserWithParkingSpotSchema.statics.signup = async function (
+  email,
+  password,
+  fullName
+) {
   const salt = await bcrypt.genSalt(10);
-
   const hash = await bcrypt.hash(password, salt);
-
-  const user = await this.create({ email, password: hash });
-
+  const user = await this.create({ email, password: hash, fullName });
   return user;
 };
 

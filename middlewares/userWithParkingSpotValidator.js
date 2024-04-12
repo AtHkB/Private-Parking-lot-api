@@ -12,7 +12,6 @@ exports.createUserWithParkingSpotValidator = [
       const existingUserWithParkingSpot = await UserWithParkingSpot.findOne({
         email: value,
       });
-      console.log("existingUserWithParkingSpot", existingUserWithParkingSpot);
       if (existingUserWithParkingSpot !== null) {
         throw new Error("A user already exists with this e-mail address");
       }
