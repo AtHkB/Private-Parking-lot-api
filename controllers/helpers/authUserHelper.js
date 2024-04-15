@@ -1,8 +1,10 @@
 const User = require("../../schemas/User");
 const jwt = require("jsonwebtoken");
 
-const createToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "1d" });
+const createToken = (id, fullName, email) => {
+  return jwt.sign({ id, fullName, email }, process.env.SECRET, {
+    expiresIn: "1d",
+  });
 };
 
 // login user
@@ -13,10 +15,10 @@ const loginUser = async (req, res) => {
     const user = await User.login(email, password);
 
     //create token
-    const token = createToken(user._id);
     const id = user._id;
     const fullName = user.fullName;
-    res.status(200).json({ email, token, id, fullName });
+    const token = createToken(id, fullName, email);
+    res.status(200).json({ token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -31,8 +33,8 @@ const signUpUser = async (req, res) => {
     const id = user._id;
     fullName = user.fullName;
     //create token
-    const token = createToken(user._id);
-    res.status(200).json({ email, token, id, fullName });
+    const token = createToken(id, fullName, email);
+    res.status(200).json({ token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

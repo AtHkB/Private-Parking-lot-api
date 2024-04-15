@@ -17,7 +17,7 @@ exports.createUserWithParkingSpot = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const userInfo = await signUpUser(req, res);
+  const token = await signUpUser(req, res);
   // make sure all the data is the way it's supposed to be
   const {
     email,
@@ -94,7 +94,7 @@ exports.createUserWithParkingSpot = async (req, res) => {
       { parkingSpots: queryUpdateUserWithParkingSpot },
       { new: true }
     );
-    res.json({ updatedUser, token: userInfo.token }).status(201);
+    res.json({ updatedUser, token: token.token }).status(201);
   } catch (err) {
     console.error(err);
     return res.json({ error: err.message }).status(400);
