@@ -20,10 +20,6 @@ const UserSchema = new mongoose.Schema({
   ],
 });
 
-/* 
-add the login & signup static methods
-
-*/
 // static custom login method
 
 UserSchema.statics.login = async function (email, password) {

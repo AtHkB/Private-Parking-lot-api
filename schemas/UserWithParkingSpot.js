@@ -26,10 +26,6 @@ const UserWithParkingSpotSchema = new mongoose.Schema({
   ],
 });
 
-/* 
-add the login & signup static methods
-
-*/
 // static custom login method
 
 UserWithParkingSpotSchema.statics.login = async function (email, password) {
