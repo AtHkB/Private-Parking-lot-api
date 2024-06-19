@@ -43,7 +43,6 @@ UserSchema.statics.login = async function (email, password) {
 };
 
 // static custom signup method
-// PLEASE CHECK AND COMMENT IF !OK
 
 UserSchema.statics.signup = async function (email, password, fullName) {
   //validation

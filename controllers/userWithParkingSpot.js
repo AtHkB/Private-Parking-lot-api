@@ -1,6 +1,3 @@
-/* 
-in the controller for user creation after the user has been created and saved, we need to also create a parking spot. meaning we need to import both the userWithParkingSpotSchema & the ParkingSpotSchema.
-*/
 const ParkingSpot = require("../schemas/ParkinSpot");
 const UserWithParkingSpot = require("../schemas/UserWithParkingSpot");
 const { validationResult } = require("express-validator");

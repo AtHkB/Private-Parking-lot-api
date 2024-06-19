@@ -24,7 +24,7 @@ exports.createBooking = async (req, res) => {
     });
     if (booking?._id) {
       return res
-        .json({ message: "booking in these duration time not possible" })
+        .json({ message: "booking in the selected time is not possible" })
         .status(200);
     } else {
       let createdbooking;
